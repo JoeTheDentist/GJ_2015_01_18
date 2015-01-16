@@ -1,26 +1,26 @@
 
-/**
- * Capture keyboard actions
- * (async)
- */
-void keyPressed() {
-  switch (key) {
-    case 'i':
-      println("UP");
-      up_model();
-      break;
-    case 'k':
-      println("DOWN");
-      down_model();
-      break;
-    case 'j':
-      println("LEFT");
-      left_model();
-      break;
-    case 'l':
-      println("RIGHT");
-      right_model();
-      break;
+Inputs gInputs = new Inputs();
+
+class Inputs {
+  public void keyPressed(int key) {
+    switch (key) {
+      case 'i':
+        println("UP");
+        gModel.up();
+        break;
+      case 'k':
+        println("DOWN");
+        gModel.down();
+        break;
+      case 'j':
+        println("LEFT");
+        gModel.left();
+        break;
+      case 'l':
+        println("RIGHT");
+        gModel.right();
+        break;
+    }
   }
 }
 

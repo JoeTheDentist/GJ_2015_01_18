@@ -1,19 +1,28 @@
 
 /**
- * Main file for the project
+ * Main file for the project.
+ * Forwarder to main classes.
  */
 
 /**
  * Init function
  */
 void setup() {
-  init_graphics();
-  init_model();
+  gResources.init();
+  gGraphics.init();
+  gModel.init();
 }
 
 /**
  * Builtin refresh loop
  */
 void draw() {
-  draw_graphics();
+  gGraphics.draw();
+}
+
+/**
+ * Keyboard action
+ */
+void keyPressed() {
+  gInputs.keyPressed(key);
 }

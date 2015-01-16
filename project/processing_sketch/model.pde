@@ -1,30 +1,34 @@
 
-CustomRect global_rect = new CustomRect();
+Model gModel = new Model();
 
-/**
- * Initialize model
- */
-void init_model() {
+class Model {
   
+  public void init() {
+    
+  }
+  
+  public void up() {
+    rect.up();
+  }
+  
+  public void down() {
+    rect.down();
+  }
+  
+  public void left() {
+    rect.left();
+  }
+  
+  public void right() {
+    rect.right();
+  }
+  
+  public CustomRect getRect() {
+    return rect;
+  }
+  
+  private CustomRect rect = new CustomRect();
 }
-
-void up_model() {
-  global_rect.up();
-}
-
-void down_model() {
-  global_rect.down();
-}
-
-void left_model() {
-  global_rect.left();
-}
-
-void right_model() {
-  global_rect.right();
-}
-
-CustomRect get_rect() { return global_rect; }
 
 class CustomRect {
   int x = 0;
@@ -34,5 +38,5 @@ class CustomRect {
   void down() { y += 10; }
   void left() { x -= 10; }
   void right() { x += 10; }
-  void draw_me() { draw_rect(x, y); }
+  void draw_me() { gGraphics.drawPict("plop", x, y); }
 }
