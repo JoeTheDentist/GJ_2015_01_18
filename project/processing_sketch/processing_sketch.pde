@@ -4,6 +4,8 @@
  * Forwarder to main classes.
  */
 
+Minim minim = new Minim(this);
+
 /**
  * Init function
  */
@@ -26,3 +28,4 @@ void draw() {
 void keyPressed() {
   gInputs.keyPressed(key);
 }
+

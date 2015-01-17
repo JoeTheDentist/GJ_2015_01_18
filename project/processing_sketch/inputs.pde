@@ -3,6 +3,7 @@ Inputs gInputs = new Inputs();
 
 class Inputs {
   public void keyPressed(int key) {
+    gSounds.play("plop");
     switch (key) {
       case 'i':
         println("UP");
