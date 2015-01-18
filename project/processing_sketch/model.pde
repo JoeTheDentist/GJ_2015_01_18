@@ -86,19 +86,22 @@ class Model {
 }
 
 Rule generateNewRule() {
-  int rand = (int)random(-1,4);
-  return new Rule(null, rand);
+  int rand = (int)random(0,4);
+  boolean reverse = (int)random(0,4) == 0 ? true : false;
+  return new Rule(null, rand, reverse);
 }
 
 class Rule {
   private int forbidenKey;
+  private boolean lie;
   private String[] images;
   public TriggerArea trigger1 = new TriggerArea();
   public TriggerArea trigger2 = new TriggerArea();
   
-  Rule(String images[], int forbidenKey) {
+  Rule(String images[], int forbidenKey, boolean lie) {
     this.images = images;
     this.forbidenKey = forbidenKey;
+    this.lie = lie;
     if (forbidenKey != -1) {
       String plop[] = {gResources.getArrowName(1, getForbidenKey(1)), gResources.getArrowName(2, getForbidenKey(2))};
       if ((int)random(2) == 1) {
@@ -107,6 +110,9 @@ class Rule {
         plop[1] = temp;
       }
       this.images = plop;
+      // reverse keys if lie mode
+      if (this.lie) { this.forbidenKey = getForbidenKey(2); }
+      
       // create exit
       trigger1.onTrigger = new CallbackTrigger() {
         public void activate(int playerId) {
@@ -147,6 +153,11 @@ class Rule {
       gGraphics.drawPict("not_line", 425, ruleDrawY);
     }
     gGraphics.drawPict("egg", 7*gridSize, 200+5*gridSize);
+    if (this.lie) {
+      gGraphics.drawPict("evil_chk", 350, 100);
+    } else {
+      gGraphics.drawPict("angel_chk", 350, 100);
+    }
   }
 }
 
