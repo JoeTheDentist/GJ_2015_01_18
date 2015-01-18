@@ -6,8 +6,8 @@ int gridSize = 50;
 class Model {
   
   public void init() {
-    player1.init("plop", 75, yHUD + 75);
-    player2.init("plop", xWindow - playerSize - 75, yWindow - playerSize - 75);
+    player1.init("chk_blu", 75, yHUD + 75);
+    player2.init("chk_blu", xWindow - playerSize - 75, yWindow - playerSize - 75);
   }
   
   void draw() { 
