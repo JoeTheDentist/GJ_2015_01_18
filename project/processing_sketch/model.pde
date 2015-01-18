@@ -104,7 +104,7 @@ class Rule {
     this.lie = lie;
     if (forbidenKey != -1) {
       String plop[] = {gResources.getArrowName(1, getForbidenKey(1)), gResources.getArrowName(2, getForbidenKey(2))};
-      if ((int)random(2) == 1) {
+      if ((int)random(3) == 0) {
         String temp = plop[0];
         plop[0] = plop[1];
         plop[1] = temp;
