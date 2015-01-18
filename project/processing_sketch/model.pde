@@ -1,7 +1,7 @@
 import java.util.List;
 
 Model gModel = new Model();
-int playerSize = 60;
+int playerSize = 50;
 int gridSize = 50;
 
 class Model {
@@ -76,36 +76,37 @@ class Player {
   String image = "";
   int score = 0;
   int id;
-  BoundingBox box = new BoundingBox(0, 0, 0, 0);
+  BoundingBox box = new BoundingBox(0, 0, 0, 0, 5);
   
   Player(int id) { this.id = id; }
   
   public void move(int ix, int iy) {
-    int xtmp = x + ix;
-    int ytmp = y + iy;
-    if (xtmp < -playerSize)
-      xtmp = xWindow - playerSize;
-    if (xtmp > xWindow)
-      xtmp = - playerSize;
-    if (ytmp < yHUD - playerSize)
-      ytmp = yWindow - playerSize;
-    if (ytmp > yWindow)
-      ytmp = yHUD - playerSize;
+    int teleportMargin = 2;
+    int xtmp = box._x + ix;
+    int ytmp = box._y + iy;
+    if (xtmp < -(playerSize - teleportMargin))
+      xtmp = xWindow - playerSize + teleportMargin;
+    if (xtmp > xWindow - teleportMargin)
+      xtmp = - playerSize + teleportMargin;
+    if (ytmp < yHUD - (playerSize - teleportMargin))
+      ytmp = yWindow - playerSize + teleportMargin;
+    if (ytmp > yWindow - teleportMargin)
+      ytmp = yHUD - playerSize + teleportMargin;
       
     box._x = xtmp;
-    if (!hasCollision()) {
-      x = xtmp;
+    if (!hasCollision() && !Collide(gModel.player1.box,gModel.player2.box)) {
+      x = xtmp - box._border;
     }
-    box._x = x;
+    box._x = x + box._border;
     
     box._y = ytmp;
-    if (!hasCollision()) {
-      y = ytmp;
+    if (!hasCollision() && !Collide(gModel.player1.box,gModel.player2.box)) {
+      y = ytmp - box._border;
     } 
-    box._y = y;
+    box._y = y + box._border;
   }
   
-  public Boolean hasCollision() {
+  public Boolean hasCollision() {  
     int boxy = (box._y - yHUD) / gridSize;
     int boxx = box._x / gridSize;
     int boxxx = (box._x + box._width) / gridSize;
@@ -122,8 +123,9 @@ class Player {
     image = imageName;
     x = ix;
     y = iy;
-    box._x = x;
-    box._y = y;
+    box._border = 5;
+    box._x = x + box._border;
+    box._y = y + box._border;
     box._width = playerSize;
     box._height = playerSize;
   }
