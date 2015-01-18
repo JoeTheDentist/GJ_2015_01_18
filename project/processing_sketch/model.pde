@@ -37,7 +37,7 @@ class Model {
   public void reset() {
     player1.init("chk_red", keys1, 75, yHUD + 75);
     player2.init("chk_blu", keys2, xWindow - playerSize - 75, yWindow - playerSize - 75);
-    rule = new Rule(null, Direction.LEFT);
+    rule = generateNewRule();
   }
   
   void draw() { 
@@ -76,6 +76,11 @@ class Model {
   public Player player2 = new Player(2);
   public ArrayList<ArrayList<Integer>> grid = new ArrayList<ArrayList<Integer>>();
 
+}
+
+Rule generateNewRule() {
+  int rand = (int)random(-1,4);
+  return new Rule(null, rand);
 }
 
 class Rule {
