@@ -28,6 +28,11 @@ void setup() {
   gGraphics.init();
   gModel.init();
   gSounds.playLoop("Chicken_Fighter");
+  Pause = true;
+  Timer timer = new Timer();
+  timer.releaseCallback = new Callback() { public void call() { Pause = false;  gGraphics.roundover = ""; gModel.reset(); } };
+  timer.releaseTime = millis() + 3000;
+  timers.add(timer);
 }
 
 /**
