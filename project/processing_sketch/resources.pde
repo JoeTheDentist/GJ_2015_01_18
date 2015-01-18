@@ -8,6 +8,7 @@ class Resources {
   public void init() {
     getImage("plop");
     getImage("background");
+    getImage("hud");
     getSound("plop");
   }
   

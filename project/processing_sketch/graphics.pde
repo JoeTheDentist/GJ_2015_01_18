@@ -14,6 +14,7 @@ class Graphics {
   public void draw() {
     drawPict("background", 0, 0);
     gModel.draw_me();
+    drawPict("hud", 0, 0);
   }
   
   public void drawPict(String imgName, int x, int y) {
