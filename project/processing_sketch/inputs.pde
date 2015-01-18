@@ -1,27 +1,21 @@
+import java.util.HashSet;
 
 Inputs gInputs = new Inputs();
 
 class Inputs {
-  public void keyPressed(int key) {
-    gSounds.play("plop");
-    switch (key) {
-      case 'i':
-        println("UP");
-        gModel.up();
-        break;
-      case 'k':
-        println("DOWN");
-        gModel.down();
-        break;
-      case 'j':
-        println("LEFT");
-        gModel.left();
-        break;
-      case 'l':
-        println("RIGHT");
-        gModel.right();
-        break;
-    }
+  
+  private HashSet<Integer> keySet = new HashSet<Integer>();
+  
+  public void keyPressed(int ikey) {
+    keySet.add(ikey);
+  }
+  
+  public void keyReleased(int ikey) {
+    keySet.remove(ikey);
+  }
+  
+  public Boolean checkKey(int ikey) {
+    return keySet.contains(ikey);
   }
 }
 

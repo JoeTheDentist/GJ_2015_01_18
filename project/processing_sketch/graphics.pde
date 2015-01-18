@@ -9,7 +9,7 @@ class Graphics {
   
   public void draw() {
     drawPict("background", 0, 0);
-    gModel.getRect().draw_me();
+    gModel.draw_me();
   }
   
   public void drawPict(String imgName, int x, int y) {
