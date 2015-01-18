@@ -83,6 +83,7 @@ class Rule {
   }
   
   int getForbidenKey(int id) {
+    if (forbidenKey == -1) { return forbidenKey; }
     if (id == 1) { return forbidenKey; }
     if (forbidenKey % 2 == 0) { return forbidenKey+1; }
     else { return forbidenKey-1; }
@@ -165,7 +166,8 @@ class Player {
   }
 
   public void update(int dt) {
-    if (gInputs.checkKey(keys[gModel.rule.getForbidenKey(id)])) { println("Player "+id+" lose"); }
+    int fKey = gModel.rule.getForbidenKey(id);
+    if (fKey != -1 && gInputs.checkKey(keys[fKey])) { println("Player "+id+" lose"); }
     int coef = -speed*dt/1000;
     int xSpeed = (gInputs.checkKey(keys[Direction.RIGHT])?1:0)*coef - (gInputs.checkKey(keys[Direction.LEFT])?1:0)*coef;
     int ySpeed = (gInputs.checkKey(keys[Direction.DOWN])?1:0)*coef - (gInputs.checkKey(keys[Direction.UP])?1:0)*coef;
