@@ -1,9 +1,13 @@
 
 Graphics gGraphics = new Graphics();
 
+int xWindow = 800;
+int yWindow = 800;
+int yHUD = 210;
+
 class Graphics {
   public void init() {
-    size(800,800);
+    size(xWindow, yWindow);
     background(0);
   }
   

@@ -1,11 +1,12 @@
 
 Model gModel = new Model();
+int playerSize = 36;
 
 class Model {
   
   public void init() {
-    player1.init("plop", 0, 0);
-    player2.init("plop", 200, 200);
+    player1.init("plop", 75, yHUD + 75);
+    player2.init("plop", xWindow - playerSize - 75, yWindow - playerSize - 75);
   }
   
   void draw_me() { 
@@ -27,6 +28,14 @@ class Player {
   public void move(int ix, int iy) {
     x += ix;
     y += iy;
+    if (x < -playerSize)
+      x = xWindow - playerSize;
+    if (x > xWindow)
+      x = - playerSize;
+    if (y < yHUD - playerSize)
+      y = yWindow - playerSize;
+    if (y > yWindow)
+      y = yHUD - playerSize;
   }
   
   public void init(String imageName, int ix, int iy) {
