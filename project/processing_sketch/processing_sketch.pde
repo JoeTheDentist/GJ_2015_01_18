@@ -1,4 +1,5 @@
-
+import java.util.List;
+import java.util.Iterator;
 /**
  * Main file for the project.
  * Forwarder to main classes.
@@ -8,11 +9,14 @@ class Callback {
     public void call() {}
 }
 
+class Timer {
+    int releaseTime = 0;
+    Callback releaseCallback = new Callback();
+}
 
 Minim minim = new Minim(this);
 int lastMs = millis();
-int releaseTime = 0;
-Callback releaseCallback = new Callback();
+ArrayList<Timer> timers = new ArrayList<Timer>();
 Boolean Debug = false;
 Boolean Pause = false;
 
@@ -36,24 +40,25 @@ void draw() {
   gModel.update(dt);
   gGraphics.draw();
   
-  if (Pause && releaseTime <= currMs) { 
-    println("End pause"); 
-    Pause = false; 
-    releaseCallback.call();
+  Iterator<Timer> i = timers.iterator();
+  while (i.hasNext()) {
+    Timer timer = i.next();
+    if (timer.releaseTime <= currMs ) {
+      timer.releaseCallback.call();
+      i.remove();
+    }
   }
 }
 
 void roundover(String text) {
   gGraphics.roundover = text; 
   gInputs.clear();
-  pause(3000, new Callback() { public void call() { gGraphics.roundover = ""; gModel.reset(); } } );
-}
-
-void pause(int time, Callback callback) {
-  println("Pause " + time);
+  // pause
   Pause = true;
-  releaseCallback = callback;
-  releaseTime = millis() + time;
+  Timer timer = new Timer();
+  timer.releaseCallback = new Callback() { public void call() { Pause = false;  gGraphics.roundover = ""; gModel.reset(); } };
+  timer.releaseTime = millis() + 3000;
+  timers.add(timer);
 }
 
 /**

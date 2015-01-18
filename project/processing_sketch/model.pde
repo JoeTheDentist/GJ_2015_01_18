@@ -191,8 +191,7 @@ class Player {
 
   public void update(int dt) {
     int fKey = gModel.rule.getForbidenKey(id);
-    if (fKey != -1 && gInputs.checkKey(keys[fKey])) { println("Player "+id+" lose"); }
-    if (gInputs.checkKey(keys[gModel.rule.getForbidenKey(id)])) { roundover("Player "+id+" loses"); }
+    if (fKey != -1 && gInputs.checkKey(keys[fKey])) { roundover("Player "+id+" loses"); changeScore(-5); }
     int coef = -speed*dt/1000;
     int xSpeed = (gInputs.checkKey(keys[Direction.RIGHT])?1:0)*coef - (gInputs.checkKey(keys[Direction.LEFT])?1:0)*coef;
     int ySpeed = (gInputs.checkKey(keys[Direction.DOWN])?1:0)*coef - (gInputs.checkKey(keys[Direction.UP])?1:0)*coef;
@@ -202,6 +201,11 @@ class Player {
   public void changeScore(int iScore)
   {
     score += iScore;
+    gGraphics.changeScore(id, iScore);
+    Timer timer = new Timer();
+    timer.releaseCallback = new Callback() { public void call() { gGraphics.endChangeScore(id); } };
+    timer.releaseTime = millis() + 1000;
+    timers.add(timer);
   }
   
   void draw() { 
