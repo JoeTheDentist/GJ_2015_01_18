@@ -1,4 +1,4 @@
-# Ultimate Chicken Revenge
+# Ultimate Chicken Revenge 6
 Game Jam for 2015/01/18
 
 Ultimate Chicken Revenge or WAFAGTIAAAAC (What A Fuckingly Awesome Game This Is Awesomely Addictive And About Chicken).
