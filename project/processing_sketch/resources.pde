@@ -10,7 +10,21 @@ class Resources {
     getImage("chk_red");
     getImage("background");
     getImage("hud");
+    getImage("not_round");
+    getImage("not_line");
+    getImage("rule_down_blu");
+    getImage("rule_down_red");
+    getImage("rule_up_blu");
+    getImage("rule_up_red");
+    getImage("rule_left_blu");
+    getImage("rule_left_red");
+    getImage("rule_right_blu");
+    getImage("rule_right_red");
     getSound("plop");
+  }
+  
+  public String getArrowName(int playerId, int dir) {
+    return "rule_"+direction[dir]+"_"+player[playerId-1];
   }
   
   public PImage getImage(String name) {
@@ -29,6 +43,8 @@ class Resources {
 
   private HashMap<String, PImage> imageMap = new HashMap<String, PImage>();
   private HashMap<String, AudioPlayer> soundMap = new HashMap<String, AudioPlayer>();
+  private final String[] direction = {"up", "down", "left", "right"};
+  private final String[] player = {"red", "blu"};
   private static final String resourcesRootPath = "../resources/";
   private static final String resourcesImagePath = Resources.resourcesRootPath + "images/";
   private static final String resourcesSoundPath = Resources.resourcesRootPath + "sounds/";

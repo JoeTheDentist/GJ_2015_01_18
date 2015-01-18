@@ -1,6 +1,7 @@
 import java.util.List;
 
 Model gModel = new Model();
+int ruleDrawY = 56;
 int playerSize = 50;
 int gridSize = 50;
 
@@ -36,12 +37,12 @@ class Model {
   public void reset() {
     player1.init("chk_red", keys1, 75, yHUD + 75);
     player2.init("chk_blu", keys2, xWindow - playerSize - 75, yWindow - playerSize - 75);
-    rule = new Rule(null, Direction.UP);
+    rule = new Rule(null, Direction.LEFT);
   }
   
   void draw() { 
     player1.draw();
-    player2.draw();  
+    player2.draw();
     if (Debug) {
       for (int y = yHUD; y < yWindow; y+= gridSize) {
         stroke(1);
@@ -84,6 +85,10 @@ class Rule {
   Rule(String images[], int forbidenKey) {
     this.images = images;
     this.forbidenKey = forbidenKey;
+    if (forbidenKey != -1) {
+      String plop[] = {gResources.getArrowName(1, getForbidenKey(1)), gResources.getArrowName(2, getForbidenKey(2))};
+      this.images = plop;
+    }
   }
   
   int getForbidenKey(int id) {
@@ -93,7 +98,22 @@ class Rule {
     else { return forbidenKey-1; }
   }
   
-  void draw() {}
+  void draw() {
+    if (images == null || images.length == 0) { return; }
+    if (images.length == 1) {
+      gGraphics.drawPict("not_round", 350, ruleDrawY);
+      gGraphics.drawPict(images[0], 350, ruleDrawY);
+      gGraphics.drawPict("not_line", 350, ruleDrawY);
+    }
+    else {
+      gGraphics.drawPict("not_round", 275, ruleDrawY);
+      gGraphics.drawPict(images[0], 275, ruleDrawY);
+      gGraphics.drawPict("not_line", 275, ruleDrawY);
+      gGraphics.drawPict("not_round", 425, ruleDrawY);
+      gGraphics.drawPict(images[1], 425, ruleDrawY);
+      gGraphics.drawPict("not_line", 425, ruleDrawY);
+    }
+  }
 }
 
 class Direction {

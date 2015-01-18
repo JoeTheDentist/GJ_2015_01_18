@@ -18,12 +18,9 @@ class Graphics {
   public void draw() {    
     drawPict("background", 0, 0);
     gModel.draw();
-    
-    if (Debug) {
-      drawGrid();
-    }
-    
+    if (Debug) { drawGrid(); }
     drawPict("hud", 0, 0);
+    gModel.rule.draw();
     drawScores();
     drawRoundover();
   }
