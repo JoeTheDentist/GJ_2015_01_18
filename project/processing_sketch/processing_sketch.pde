@@ -37,8 +37,8 @@ void keyReleased() {
 
 void handleMove() {
  // player 1
- int xSpeed = (gInputs.checkKey('d')?1:0)*playerSpeed - (gInputs.checkKey('q')?1:0)*playerSpeed;
- int ySpeed = (gInputs.checkKey('s')?1:0)*playerSpeed - (gInputs.checkKey('z')?1:0)*playerSpeed;
+ int xSpeed = (gInputs.checkKey('d')?1:0)*playerSpeed - (gInputs.checkKey('a')?1:0)*playerSpeed;
+ int ySpeed = (gInputs.checkKey('s')?1:0)*playerSpeed - (gInputs.checkKey('w')?1:0)*playerSpeed;
  gModel.player1.move(xSpeed, ySpeed);
  // player 2 
  xSpeed = (gInputs.checkKey('l')?1:0)*playerSpeed - (gInputs.checkKey('j')?1:0)*playerSpeed;
