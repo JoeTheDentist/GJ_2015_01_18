@@ -10,6 +10,8 @@ class Model {
   final Integer WALL = 1;
   int nbxgrid = 0;
   int nbygrid = 0;
+  char[] keys1 = {'w', 's', 'a', 'd'};
+  char[] keys2 = {'i', 'k', 'j', 'l'};
   Rule rule;
   
   public void init() {   
@@ -28,8 +30,10 @@ class Model {
            grid.get(x).add(EMPTY);
       }
     }
-    char[] keys1 = {'w', 's', 'a', 'd'};
-    char[] keys2 = {'i', 'k', 'j', 'l'};
+    reset();
+  }
+  
+  public void reset() {
     player1.init("chk_red", keys1, 75, yHUD + 75);
     player2.init("chk_blu", keys2, xWindow - playerSize - 75, yWindow - playerSize - 75);
     rule = new Rule(null, Direction.UP);
@@ -165,7 +169,7 @@ class Player {
   }
 
   public void update(int dt) {
-    if (gInputs.checkKey(keys[gModel.rule.getForbidenKey(id)])) { println("Player "+id+" lose"); }
+    if (gInputs.checkKey(keys[gModel.rule.getForbidenKey(id)])) { gameover("Player "+id+" lose"); }
     int coef = -speed*dt/1000;
     int xSpeed = (gInputs.checkKey(keys[Direction.RIGHT])?1:0)*coef - (gInputs.checkKey(keys[Direction.LEFT])?1:0)*coef;
     int ySpeed = (gInputs.checkKey(keys[Direction.DOWN])?1:0)*coef - (gInputs.checkKey(keys[Direction.UP])?1:0)*coef;

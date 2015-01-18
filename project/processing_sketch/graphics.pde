@@ -6,6 +6,8 @@ int yWindow = 800;
 int yHUD = 211;
 
 class Graphics {
+  String gameover = "";
+  
   public void init() {
     textSize(40);
     colorMode(RGB, 255);
@@ -22,6 +24,8 @@ class Graphics {
     }
     
     drawPict("hud", 0, 0);
+    drawScores();
+    drawGameover();
   }
   
   public void drawGrid() {
@@ -35,7 +39,9 @@ class Graphics {
   
   public void drawPict(String imgName, int x, int y) {
     image(gResources.getImage(imgName), x, y);
-
+  }
+  
+  public void drawScores() {
     //Score Player 1
     fill(255, 255, 255);
     text(gModel.player1.score, 75 ,175);
@@ -43,6 +49,13 @@ class Graphics {
     //Score Player 2
     fill(255, 255, 255);
     text(gModel.player2.score, 675 ,175);
+  }
+  
+  public void drawGameover() {
+    if (!gameover.isEmpty()) {
+      fill(255, 255, 255);
+      text("ROUND OVER" + "\n" + gameover, 280 , 500); 
+    }
   }
 }
 
