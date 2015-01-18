@@ -4,39 +4,39 @@ Model gModel = new Model();
 class Model {
   
   public void init() {
+    player1.init("plop", 0, 0);
+    player2.init("plop", 200, 200);
+  }
+  
+  void draw_me() { 
+    player1.draw_me();
+    player2.draw_me();
     
   }
   
-  public void up() {
-    rect.up();
-  }
-  
-  public void down() {
-    rect.down();
-  }
-  
-  public void left() {
-    rect.left();
-  }
-  
-  public void right() {
-    rect.right();
-  }
-  
-  public CustomRect getRect() {
-    return rect;
-  }
-  
-  private CustomRect rect = new CustomRect();
+  public Player player1 = new Player();
+  public Player player2 = new Player();
 }
 
-class CustomRect {
+class Player {
+  
   int x = 0;
   int y = 0;
+  String image = "";
   
-  void up() { y -= 10; }
-  void down() { y += 10; }
-  void left() { x -= 10; }
-  void right() { x += 10; }
-  void draw_me() { gGraphics.drawPict("plop", x, y); }
+  public void move(int ix, int iy) {
+    x += ix;
+    y += iy;
+  }
+  
+  public void init(String imageName, int ix, int iy) {
+    image = imageName;
+    x = ix;
+    y = iy;
+  }
+  
+  void draw_me() { 
+    gGraphics.drawPict(image, x, y); 
+  }
+  
 }

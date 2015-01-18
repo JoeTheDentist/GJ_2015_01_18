@@ -3,7 +3,7 @@ Graphics gGraphics = new Graphics();
 
 class Graphics {
   public void init() {
-    size(800,600);
+    size(800,800);
     background(0);
   }
   
@@ -11,7 +11,7 @@ class Graphics {
     background(0);
     noStroke();
     colorMode(RGB, 100);
-    gModel.getRect().draw_me();
+    gModel.draw_me();
   }
   
   public void drawPict(String imgName, int x, int y) {
