@@ -3,14 +3,12 @@ Graphics gGraphics = new Graphics();
 
 class Graphics {
   public void init() {
-    size(800,600);
+    size(800,800);
     background(0);
   }
   
   public void draw() {
-    background(0);
-    noStroke();
-    colorMode(RGB, 100);
+    drawPict("background", 0, 0);
     gModel.getRect().draw_me();
   }
   
