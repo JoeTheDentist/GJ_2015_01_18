@@ -1,6 +1,7 @@
 
 Model gModel = new Model();
 int playerSize = 36;
+int gridSize = 50;
 
 class Model {
   
@@ -10,9 +11,18 @@ class Model {
   }
   
   void draw_me() { 
-    player1.draw_me();
-    player2.draw_me();
     
+    if (Debug) {
+      for (int y = yHUD; y < yWindow; y+= gridSize) {
+        line(0, y, xWindow, y);  
+      }
+      for (int x = 0; x < xWindow; x+= gridSize) {
+        line(x, 0, x, xWindow);  
+      }
+    }
+    
+    player1.draw_me();
+    player2.draw_me();  
   }
   
   public Player player1 = new Player();
@@ -24,24 +34,33 @@ class Player {
   int x = 0;
   int y = 0;
   String image = "";
+  BoundingBox box = new BoundingBox(0, 0, playerSize, playerSize);
   
   public void move(int ix, int iy) {
-    x += ix;
-    y += iy;
-    if (x < -playerSize)
-      x = xWindow - playerSize;
-    if (x > xWindow)
-      x = - playerSize;
-    if (y < yHUD - playerSize)
-      y = yWindow - playerSize;
-    if (y > yWindow)
-      y = yHUD - playerSize;
+    int xtmp = x + ix;
+    int ytmp = y + iy;
+    if (xtmp < -playerSize)
+      xtmp = xWindow - playerSize;
+    if (xtmp > xWindow)
+      xtmp = - playerSize;
+    if (ytmp < yHUD - playerSize)
+      ytmp = yWindow - playerSize;
+    if (ytmp > yWindow)
+      ytmp = yHUD - playerSize;
+      
+    x = xtmp;
+    y = ytmp;
+      
+    box._x = x;
+    box._y = y;
   }
   
   public void init(String imageName, int ix, int iy) {
     image = imageName;
     x = ix;
     y = iy;
+    box._x = x;
+    box._y = y;
   }
   
   void draw_me() { 

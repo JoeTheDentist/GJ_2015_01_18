@@ -6,6 +6,7 @@
 
 Minim minim = new Minim(this);
 Integer playerSpeed = 5;
+Boolean Debug = true;
 
 /**
  * Init function

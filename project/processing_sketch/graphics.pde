@@ -3,7 +3,7 @@ Graphics gGraphics = new Graphics();
 
 int xWindow = 800;
 int yWindow = 800;
-int yHUD = 210;
+int yHUD = 211;
 
 class Graphics {
   public void init() {
