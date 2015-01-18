@@ -7,6 +7,7 @@ Resources gResources = new Resources();
 class Resources {
   public void init() {
     getImage("chk_blu");
+    getImage("chk_red");
     getImage("background");
     getImage("hud");
     getSound("plop");

@@ -6,7 +6,7 @@ int gridSize = 50;
 class Model {
   
   public void init() {
-    player1.init("chk_blu", 75, yHUD + 75);
+    player1.init("chk_red", 75, yHUD + 75);
     player2.init("chk_blu", xWindow - playerSize - 75, yWindow - playerSize - 75);
   }
   
@@ -28,7 +28,6 @@ class Player {
   private static final int speed = 500;
   int x = 0;
   int y = 0;
-  int score = 0; 
   String image = "";
   int id;
   BoundingBox box = new BoundingBox(0, 0, playerSize, playerSize);
@@ -74,15 +73,6 @@ class Player {
       ySpeed = (gInputs.checkKey('k')?1:0)*coef - (gInputs.checkKey('i')?1:0)*coef;
     }
     move(xSpeed, ySpeed);
-  }
-
-  public void changeScore(int iScore)
-  {
-    score += iScore;
-  }
-  
-  void draw_me() { 
-    gGraphics.drawPict(image, x, y); 
   }
   
   void draw() { 
