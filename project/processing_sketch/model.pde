@@ -2,7 +2,7 @@ import java.util.List;
 
 Model gModel = new Model();
 int ruleDrawY = 56;
-int playerSize = 50;
+int playerSize = 40;
 int gridSize = 50;
 
 class Model {
@@ -162,7 +162,7 @@ class Player {
   String image = "";
   int score = 0;
   int id;
-  BoundingBox box = new BoundingBox(0, 0, 0, 0, 5);
+  BoundingBox box = new BoundingBox(0, 0, 0, 0, 10);
  
   Player(int id) { this.id = id; }
   
@@ -172,7 +172,7 @@ class Player {
     y = iy;
     box._x = x;
     box._y = y;
-    box._border = 5;
+    box._border = 10;
     box._x = x + box._border;
     box._y = y + box._border;
     box._width = playerSize;
