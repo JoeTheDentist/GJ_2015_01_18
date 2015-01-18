@@ -6,7 +6,7 @@ int yWindow = 800;
 int yHUD = 211;
 
 class Graphics {
-  String gameover = "";
+  String roundover = "";
   
   public void init() {
     textSize(40);
@@ -25,7 +25,7 @@ class Graphics {
     
     drawPict("hud", 0, 0);
     drawScores();
-    drawGameover();
+    drawRoundover();
   }
   
   public void drawGrid() {
@@ -51,10 +51,10 @@ class Graphics {
     text(gModel.player2.score, 675 ,175);
   }
   
-  public void drawGameover() {
-    if (!gameover.isEmpty()) {
+  public void drawRoundover() {
+    if (!roundover.isEmpty()) {
       fill(255, 255, 255);
-      text("ROUND OVER" + "\n" + gameover, 280 , 500); 
+      text("ROUND OVER" + "\n" + roundover, 280 , 500); 
     }
   }
 }

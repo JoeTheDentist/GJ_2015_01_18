@@ -43,10 +43,10 @@ void draw() {
   }
 }
 
-void gameover(String text) {
-  gGraphics.gameover = text; 
+void roundover(String text) {
+  gGraphics.roundover = text; 
   gInputs.clear();
-  pause(3000, new Callback() { public void call() { gGraphics.gameover = ""; gModel.reset(); } } );
+  pause(3000, new Callback() { public void call() { gGraphics.roundover = ""; gModel.reset(); } } );
 }
 
 void pause(int time, Callback callback) {

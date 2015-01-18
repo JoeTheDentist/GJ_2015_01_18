@@ -169,7 +169,7 @@ class Player {
   }
 
   public void update(int dt) {
-    if (gInputs.checkKey(keys[gModel.rule.getForbidenKey(id)])) { gameover("Player "+id+" lose"); }
+    if (gInputs.checkKey(keys[gModel.rule.getForbidenKey(id)])) { roundover("Player "+id+" loses"); }
     int coef = -speed*dt/1000;
     int xSpeed = (gInputs.checkKey(keys[Direction.RIGHT])?1:0)*coef - (gInputs.checkKey(keys[Direction.LEFT])?1:0)*coef;
     int ySpeed = (gInputs.checkKey(keys[Direction.DOWN])?1:0)*coef - (gInputs.checkKey(keys[Direction.UP])?1:0)*coef;
