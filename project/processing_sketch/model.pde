@@ -101,6 +101,11 @@ class Rule {
     this.forbidenKey = forbidenKey;
     if (forbidenKey != -1) {
       String plop[] = {gResources.getArrowName(1, getForbidenKey(1)), gResources.getArrowName(2, getForbidenKey(2))};
+      if ((int)random(2) == 1) {
+        String temp = plop[0];
+        plop[0] = plop[1];
+        plop[1] = temp;
+      }
       this.images = plop;
       // create exit
       trigger1.onTrigger = new CallbackTrigger() {
@@ -116,7 +121,6 @@ class Rule {
       gModel.grid.get(7).set(6, gModel.TRIGGER1);
       gModel.grid.get(8).set(5, gModel.TRIGGER1);
       gModel.grid.get(8).set(6, gModel.TRIGGER1);
-      
     }
   }
   

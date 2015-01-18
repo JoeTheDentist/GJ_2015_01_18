@@ -21,6 +21,8 @@ class Resources {
     getImage("rule_right_blu");
     getImage("rule_right_red");
     getImage("egg");
+    getImage("evil_chk");
+    getImage("angel_chk");
     getSound("plop");
   }
   
