@@ -9,6 +9,8 @@ class Model {
   
   final Integer EMPTY = 0;
   final Integer WALL = 1;
+  final Integer TRIGGER1 = 2;
+  final Integer TRIGGER2 = 2;
   int nbxgrid = 0;
   int nbygrid = 0;
   char[] keys1 = {'w', 's', 'a', 'd'};
@@ -57,11 +59,16 @@ class Model {
       }
       for (int x = 0; x < grid.size(); ++x) {
         for (int y = 0; y < grid.get(0).size(); ++y) {
-          if (grid.get(x).get(y) != EMPTY) {
+          if (grid.get(x).get(y) == WALL) {
             noStroke();
             fill(256, 0, 0, 50);
             rect(x*gridSize, yHUD + y*gridSize, gridSize, gridSize);
           }
+          if (grid.get(x).get(y) == TRIGGER1 || grid.get(x).get(y) == TRIGGER2) {
+            noStroke();
+            fill(0, 255, 0, 50);
+            rect(x*gridSize, yHUD + y*gridSize, gridSize, gridSize);
+          }          
         } 
       }
     }
@@ -86,6 +93,8 @@ Rule generateNewRule() {
 class Rule {
   private int forbidenKey;
   private String[] images;
+  public TriggerArea trigger1 = new TriggerArea();
+  public TriggerArea trigger2 = new TriggerArea();
   
   Rule(String images[], int forbidenKey) {
     this.images = images;
@@ -93,6 +102,21 @@ class Rule {
     if (forbidenKey != -1) {
       String plop[] = {gResources.getArrowName(1, getForbidenKey(1)), gResources.getArrowName(2, getForbidenKey(2))};
       this.images = plop;
+      // create exit
+      trigger1.onTrigger = new CallbackTrigger() {
+        public void activate(int playerId) {
+          roundover("Player "+playerId+" won");
+          if (playerId == 1) 
+           gModel.player1.changeScore(5);
+          if (playerId == 2) 
+           gModel.player2.changeScore(5);
+        }  
+      };
+      gModel.grid.get(7).set(5, gModel.TRIGGER1);
+      gModel.grid.get(7).set(6, gModel.TRIGGER1);
+      gModel.grid.get(8).set(5, gModel.TRIGGER1);
+      gModel.grid.get(8).set(6, gModel.TRIGGER1);
+      
     }
   }
   
@@ -138,7 +162,7 @@ class Player {
   int score = 0;
   int id;
   BoundingBox box = new BoundingBox(0, 0, 0, 0, 5);
-  
+ 
   Player(int id) { this.id = id; }
   
   public void init(String imageName, char[] keys, int ix, int iy) {
@@ -169,27 +193,28 @@ class Player {
       ytmp = yHUD - playerSize + teleportMargin;
       
     box._x = xtmp;
-    if (!hasCollision() && !Collide(gModel.player1.box,gModel.player2.box)) {
+    if (!hasCollision(gModel.WALL) && !Collide(gModel.player1.box,gModel.player2.box)) {
       x = xtmp - box._border;
     }
     box._x = x + box._border;
     
     box._y = ytmp;
-    if (!hasCollision() && !Collide(gModel.player1.box,gModel.player2.box)) {
+    if (!hasCollision(gModel.WALL) && !Collide(gModel.player1.box,gModel.player2.box)) {
       y = ytmp - box._border;
     } 
     box._y = y + box._border;
   }
   
-  public Boolean hasCollision() {  
+  public Boolean hasCollision(int type) {
+    if (Pause) return false;  
     int boxy = (box._y - yHUD) / gridSize;
     int boxx = box._x / gridSize;
     int boxxx = (box._x + box._width) / gridSize;
     int boxyy = (box._y - yHUD + box._height) / gridSize;
-    if (boxx >= 0 && boxy >=0 && boxx < gModel.nbxgrid && boxy < gModel.nbygrid && (gModel.grid.get(boxx).get(boxy) != gModel.EMPTY)) return true;
-    if (boxxx >= 0 && boxy >=0 && boxxx < gModel.nbxgrid && boxy < gModel.nbygrid &&(gModel.grid.get(boxxx).get(boxy) != gModel.EMPTY)) return true;
-    if (boxxx >= 0 && boxyy >=0 && boxxx < gModel.nbxgrid && boxyy < gModel.nbygrid &&(gModel.grid.get(boxxx).get(boxyy) != gModel.EMPTY)) return true;
-    if (boxx >= 0 && boxyy >=0 && boxx < gModel.nbxgrid && boxyy < gModel.nbygrid &&(gModel.grid.get(boxx).get(boxyy) != gModel.EMPTY)) return true;
+    if (boxx >= 0 && boxy >=0 && boxx < gModel.nbxgrid && boxy < gModel.nbygrid && (gModel.grid.get(boxx).get(boxy) == type)) return true;
+    if (boxxx >= 0 && boxy >=0 && boxxx < gModel.nbxgrid && boxy < gModel.nbygrid &&(gModel.grid.get(boxxx).get(boxy) == type)) return true;
+    if (boxxx >= 0 && boxyy >=0 && boxxx < gModel.nbxgrid && boxyy < gModel.nbygrid &&(gModel.grid.get(boxxx).get(boxyy) == type)) return true;
+    if (boxx >= 0 && boxyy >=0 && boxx < gModel.nbxgrid && boxyy < gModel.nbygrid &&(gModel.grid.get(boxx).get(boxyy) == type)) return true;
   
     return false;  
   }
@@ -197,6 +222,11 @@ class Player {
   public void update(int dt) {
     int fKey = gModel.rule.getForbidenKey(id);
     if (fKey != -1 && gInputs.checkKey(keys[fKey])) { roundover("Player "+id+" loses"); changeScore(-5); }
+    if (hasCollision(gModel.TRIGGER1))
+      gModel.rule.trigger1.onTrigger.activate(id);      
+    if (hasCollision(gModel.TRIGGER2))
+      gModel.rule.trigger2.onTrigger.activate(id);
+
     int coef = -speed*dt/1000;
     int xSpeed = (gInputs.checkKey(keys[Direction.RIGHT])?1:0)*coef - (gInputs.checkKey(keys[Direction.LEFT])?1:0)*coef;
     int ySpeed = (gInputs.checkKey(keys[Direction.DOWN])?1:0)*coef - (gInputs.checkKey(keys[Direction.UP])?1:0)*coef;
@@ -216,4 +246,12 @@ class Player {
   void draw() { 
     gGraphics.drawPict(image, x, y); 
   }
+}
+
+class CallbackTrigger {
+  public void activate(int playerId) {}  
+}
+
+class TriggerArea {
+  CallbackTrigger onTrigger = new CallbackTrigger(); 
 }

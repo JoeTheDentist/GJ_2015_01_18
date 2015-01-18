@@ -17,7 +17,7 @@ class Timer {
 Minim minim = new Minim(this);
 int lastMs = millis();
 ArrayList<Timer> timers = new ArrayList<Timer>();
-Boolean Debug = false;
+Boolean Debug = true;
 Boolean Pause = false;
 
 /**
