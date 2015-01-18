@@ -15,6 +15,12 @@ class BoundingBox {
     this._height = iheight;
     gBoxes.add(this);
   }
+  
+  public void draw() {
+    noStroke();
+    fill(256, 0, 0, 50);
+    rect(_x, _y, _width, _height);
+  }
 }
 
 static public Boolean CollideX (BoundingBox box1, BoundingBox box2) {
