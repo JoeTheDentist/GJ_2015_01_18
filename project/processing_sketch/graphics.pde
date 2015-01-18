@@ -13,11 +13,30 @@ class Graphics {
   
   public void draw() {
     drawPict("background", 0, 0);
-    gModel.draw_me();
+    gModel.draw();
+    
+    if (Debug) {
+      drawGrid();
+    }
+    
     drawPict("hud", 0, 0);
+  }
+  
+  public void drawGrid() {
+    for (int y = yHUD; y < yWindow; y+= gridSize) {
+      line(0, y, xWindow, y);  
+    }
+    for (int x = 0; x < xWindow; x+= gridSize) {
+      line(x, 0, x, xWindow);  
+    }
   }
   
   public void drawPict(String imgName, int x, int y) {
     image(gResources.getImage(imgName), x, y);
   }
+}
+
+class Animation {
+  Animation(String pathToImgs, int numberOfImgs) {}
+  void update(float dt) {}
 }

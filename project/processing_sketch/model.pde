@@ -10,31 +10,29 @@ class Model {
     player2.init("plop", xWindow - playerSize - 75, yWindow - playerSize - 75);
   }
   
-  void draw_me() { 
-    
-    if (Debug) {
-      for (int y = yHUD; y < yWindow; y+= gridSize) {
-        line(0, y, xWindow, y);  
-      }
-      for (int x = 0; x < xWindow; x+= gridSize) {
-        line(x, 0, x, xWindow);  
-      }
-    }
-    
-    player1.draw_me();
-    player2.draw_me();  
+  void draw() { 
+    player1.draw();
+    player2.draw();  
   }
   
-  public Player player1 = new Player();
-  public Player player2 = new Player();
+  void update(int dt) {
+    player1.update(dt);
+    player2.update(dt);
+  }
+  
+  public Player player1 = new Player(1);
+  public Player player2 = new Player(2);
 }
 
 class Player {
-  
+  private static final int speed = 500;
   int x = 0;
   int y = 0;
   String image = "";
+  int id;
   BoundingBox box = new BoundingBox(0, 0, playerSize, playerSize);
+  
+  Player(int id) { this.id = id; }
   
   public void move(int ix, int iy) {
     int xtmp = x + ix;
@@ -63,8 +61,21 @@ class Player {
     box._y = y;
   }
   
-  void draw_me() { 
-    gGraphics.drawPict(image, x, y); 
+  public void update(int dt) {
+    int coef = -speed*dt/1000;
+    int xSpeed = 0;
+    int ySpeed = 0;
+    if (id == 1) {
+      xSpeed = (gInputs.checkKey('d')?1:0)*coef - (gInputs.checkKey('a')?1:0)*coef;
+      ySpeed = (gInputs.checkKey('s')?1:0)*coef - (gInputs.checkKey('w')?1:0)*coef;
+    } else if (id == 2) {
+      xSpeed = (gInputs.checkKey('l')?1:0)*coef - (gInputs.checkKey('j')?1:0)*coef;
+      ySpeed = (gInputs.checkKey('k')?1:0)*coef - (gInputs.checkKey('i')?1:0)*coef;
+    }
+    move(xSpeed, ySpeed);
   }
   
+  void draw() { 
+    gGraphics.drawPict(image, x, y); 
+  }
 }
