@@ -28,6 +28,7 @@ class Player {
   private static final int speed = 500;
   int x = 0;
   int y = 0;
+  int score = 0; 
   String image = "";
   int id;
   BoundingBox box = new BoundingBox(0, 0, playerSize, playerSize);
@@ -73,6 +74,15 @@ class Player {
       ySpeed = (gInputs.checkKey('k')?1:0)*coef - (gInputs.checkKey('i')?1:0)*coef;
     }
     move(xSpeed, ySpeed);
+  }
+
+  public void changeScore(int iScore)
+  {
+    score += iScore;
+  }
+  
+  void draw_me() { 
+    gGraphics.drawPict(image, x, y); 
   }
   
   void draw() { 

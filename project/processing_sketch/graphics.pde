@@ -7,11 +7,13 @@ int yHUD = 211;
 
 class Graphics {
   public void init() {
+    textSize(40);
+    colorMode(RGB, 255);
     size(xWindow, yWindow);
     background(0);
   }
   
-  public void draw() {
+  public void draw() {    
     drawPict("background", 0, 0);
     gModel.draw();
     
@@ -33,6 +35,14 @@ class Graphics {
   
   public void drawPict(String imgName, int x, int y) {
     image(gResources.getImage(imgName), x, y);
+
+    //Score Player 1
+    fill(255, 255, 255);
+    text(gModel.player1.score, 75 ,175);
+  
+    //Score Player 2
+    fill(255, 255, 255);
+    text(gModel.player2.score, 675 ,175);
   }
 }
 

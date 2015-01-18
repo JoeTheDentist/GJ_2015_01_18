@@ -7,7 +7,7 @@
 Minim minim = new Minim(this);
 int lastMs = millis();
 Boolean Debug = true;
-int playerSpeed = 5;
+
 
 /**
  * Init function
