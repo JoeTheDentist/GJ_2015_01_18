@@ -27,6 +27,7 @@ void setup() {
   gResources.init();
   gGraphics.init();
   gModel.init();
+  gSounds.playLoop("Chicken_Fighter");
 }
 
 /**

@@ -237,7 +237,7 @@ class Player {
 
   public void update(int dt) {
     int fKey = gModel.rule.getForbidenKey(id);
-    if (fKey != -1 && gInputs.checkKey(keys[fKey])) { roundover("Player "+id+" loses"); changeScore(-5); }
+    if (fKey != -1 && gInputs.checkKey(keys[fKey])) { roundover("Player "+id+" loses"); changeScore(-10); }
     if (hasCollision(gModel.TRIGGER1))
       gModel.rule.trigger1.onTrigger.activate(id);      
     if (hasCollision(gModel.TRIGGER2))

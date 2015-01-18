@@ -24,6 +24,7 @@ class Resources {
     getImage("evil_chk");
     getImage("angel_chk");
     getSound("plop");
+    getSound("Chicken_Fighter");
   }
   
   public String getArrowName(int playerId, int dir) {
