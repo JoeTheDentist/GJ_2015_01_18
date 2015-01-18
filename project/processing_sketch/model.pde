@@ -10,6 +10,7 @@ class Model {
   final Integer WALL = 1;
   int nbxgrid = 0;
   int nbygrid = 0;
+  Rule rule;
   
   public void init() {   
     nbxgrid = xWindow / gridSize;
@@ -27,8 +28,11 @@ class Model {
            grid.get(x).add(EMPTY);
       }
     }
-    player1.init("chk_red", 75, yHUD + 75);
-    player2.init("chk_blu", xWindow - playerSize - 75, yWindow - playerSize - 75);
+    char[] keys1 = {'w', 's', 'a', 'd'};
+    char[] keys2 = {'i', 'k', 'j', 'l'};
+    player1.init("chk_red", keys1, 75, yHUD + 75);
+    player2.init("chk_blu", keys2, xWindow - playerSize - 75, yWindow - playerSize - 75);
+    rule = new Rule(null, Direction.UP);
   }
   
   void draw() { 
@@ -69,8 +73,35 @@ class Model {
 
 }
 
+class Rule {
+  private int forbidenKey;
+  private String[] images;
+  
+  Rule(String images[], int forbidenKey) {
+    this.images = images;
+    this.forbidenKey = forbidenKey;
+  }
+  
+  int getForbidenKey(int id) {
+    if (id == 1) { return forbidenKey; }
+    if (forbidenKey % 2 == 0) { return forbidenKey+1; }
+    else { return forbidenKey-1; }
+  }
+  
+  void draw() {}
+}
+
+class Direction {
+  public static final int UP = 0;
+  public static final int DOWN = 1;
+  public static final int LEFT = 2;
+  public static final int RIGHT = 3;
+}
+
 class Player {
   private static final int speed = 500;
+  private char[] keys;
+  
   int x = 0;
   int y = 0;
   String image = "";
@@ -79,6 +110,20 @@ class Player {
   BoundingBox box = new BoundingBox(0, 0, 0, 0, 5);
   
   Player(int id) { this.id = id; }
+  
+  public void init(String imageName, char[] keys, int ix, int iy) {
+    image = imageName;
+    x = ix;
+    y = iy;
+    box._x = x;
+    box._y = y;
+    box._border = 5;
+    box._x = x + box._border;
+    box._y = y + box._border;
+    box._width = playerSize;
+    box._height = playerSize;
+    this.keys = keys;
+  }
   
   public void move(int ix, int iy) {
     int teleportMargin = 2;
@@ -118,29 +163,12 @@ class Player {
   
     return false;  
   }
-  
-  public void init(String imageName, int ix, int iy) {
-    image = imageName;
-    x = ix;
-    y = iy;
-    box._border = 5;
-    box._x = x + box._border;
-    box._y = y + box._border;
-    box._width = playerSize;
-    box._height = playerSize;
-  }
-  
+
   public void update(int dt) {
+    if (gInputs.checkKey(keys[gModel.rule.getForbidenKey(id)])) { println("Player "+id+" lose"); }
     int coef = -speed*dt/1000;
-    int xSpeed = 0;
-    int ySpeed = 0;
-    if (id == 1) {
-      xSpeed = (gInputs.checkKey('d')?1:0)*coef - (gInputs.checkKey('a')?1:0)*coef;
-      ySpeed = (gInputs.checkKey('s')?1:0)*coef - (gInputs.checkKey('w')?1:0)*coef;
-    } else if (id == 2) {
-      xSpeed = (gInputs.checkKey('l')?1:0)*coef - (gInputs.checkKey('j')?1:0)*coef;
-      ySpeed = (gInputs.checkKey('k')?1:0)*coef - (gInputs.checkKey('i')?1:0)*coef;
-    }
+    int xSpeed = (gInputs.checkKey(keys[Direction.RIGHT])?1:0)*coef - (gInputs.checkKey(keys[Direction.LEFT])?1:0)*coef;
+    int ySpeed = (gInputs.checkKey(keys[Direction.DOWN])?1:0)*coef - (gInputs.checkKey(keys[Direction.UP])?1:0)*coef;
     move(xSpeed, ySpeed);
   }
   

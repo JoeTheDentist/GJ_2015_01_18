@@ -6,7 +6,7 @@
 
 Minim minim = new Minim(this);
 int lastMs = millis();
-Boolean Debug = true;
+Boolean Debug = false;
 
 
 /**
