@@ -17,5 +17,9 @@ class Inputs {
   public Boolean checkKey(int ikey) {
     return keySet.contains(ikey);
   }
+  
+  public void clear(){
+     keySet.clear(); 
+  }
 }
 
