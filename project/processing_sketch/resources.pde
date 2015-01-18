@@ -20,6 +20,7 @@ class Resources {
     getImage("rule_left_red");
     getImage("rule_right_blu");
     getImage("rule_right_red");
+    getImage("egg");
     getSound("plop");
   }
   

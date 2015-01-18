@@ -142,6 +142,7 @@ class Rule {
       gGraphics.drawPict(images[1], 425, ruleDrawY);
       gGraphics.drawPict("not_line", 425, ruleDrawY);
     }
+    gGraphics.drawPict("egg", 7*gridSize, 200+5*gridSize);
   }
 }
 

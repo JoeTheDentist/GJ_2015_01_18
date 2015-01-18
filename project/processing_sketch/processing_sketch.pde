@@ -17,7 +17,7 @@ class Timer {
 Minim minim = new Minim(this);
 int lastMs = millis();
 ArrayList<Timer> timers = new ArrayList<Timer>();
-Boolean Debug = true;
+Boolean Debug = false;
 Boolean Pause = false;
 
 /**
@@ -40,6 +40,7 @@ void draw() {
   gModel.update(dt);
   gGraphics.draw();
   
+  if (Pause) gModel.reset();
   Iterator<Timer> i = timers.iterator();
   while (i.hasNext()) {
     Timer timer = i.next();
