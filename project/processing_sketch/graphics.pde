@@ -6,7 +6,7 @@ int yWindow = 800;
 int yHUD = 211;
 
 class Graphics {
-  String roundover = "";
+  String roundoverStr = "";
   int player1ScoreChanging = 0;
   int player2ScoreChanging = 0;
   
@@ -59,9 +59,9 @@ class Graphics {
   }
   
   public void drawRoundover() {
-    if (!roundover.isEmpty()) {
+    if (!roundoverStr.equals("")) {
       fill(255, 255, 255);
-      text("ROUND OVER" + "\n" + roundover, 280 , 500); 
+      text("ROUND OVER" + "\n" + roundoverStr, 280 , 500); 
     }
   }
   
