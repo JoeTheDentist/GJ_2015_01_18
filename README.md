@@ -7,6 +7,8 @@ Ultimate Chicken Revenge or WAFAGTIAAAAC (What A Fuckingly Awesome Game This Is 
 
 Game Jam theme was lie.
 
+Play it [live](http://joethedentist.github.io/GJ_2015_01_18/project/processing_sketch/)
+
 ## Rules
 - There are two chicken craving to be with its eggs.
 - The two chickens are rival and only the first one will have the 5 shiny points rewarding him to be the first one to be with its eggs.
