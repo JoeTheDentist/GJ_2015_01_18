@@ -1,13 +1,14 @@
-import java.util.HashSet;
+// HashSet not supported in Processing.js
+import java.util.HashMap;
 
 Inputs gInputs = new Inputs();
 
 class Inputs {
   
-  private HashSet<Integer> keySet = new HashSet<Integer>();
+  private HashMap<Integer, Boolean> keySet = new HashMap<Integer, Boolean>();
   
   public void keyPressed(int ikey) {
-    keySet.add(ikey);
+    keySet.put(ikey, true);
   }
   
   public void keyReleased(int ikey) {
@@ -15,7 +16,7 @@ class Inputs {
   }
   
   public Boolean checkKey(int ikey) {
-    return keySet.contains(ikey);
+    return keySet.containsKey(ikey);
   }
   
   public void clear(){

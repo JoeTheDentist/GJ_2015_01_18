@@ -30,7 +30,7 @@ void setup() {
   gSounds.playLoop("Chicken_Fighter");
   Pause = true;
   Timer timer = new Timer();
-  timer.releaseCallback = new Callback() { public void call() { Pause = false;  gGraphics.roundover = ""; gModel.reset(); } };
+  timer.releaseCallback = new Callback() { public void call() { Pause = false;  gGraphics.roundoverStr = ""; gModel.reset(); } };
   timer.releaseTime = millis() + 3000;
   timers.add(timer);
 }
@@ -58,12 +58,12 @@ void draw() {
 }
 
 void roundover(String text) {
-  gGraphics.roundover = text; 
+  gGraphics.roundoverStr = text; 
   gInputs.clear();
   // pause
   Pause = true;
   Timer timer = new Timer();
-  timer.releaseCallback = new Callback() { public void call() { Pause = false;  gGraphics.roundover = ""; gModel.reset(); } };
+  timer.releaseCallback = new Callback() { public void call() { Pause = false;  gGraphics.roundoverStr = ""; gModel.reset(); } };
   timer.releaseTime = millis() + 3000;
   timers.add(timer);
 }

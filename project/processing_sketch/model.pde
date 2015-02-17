@@ -20,17 +20,16 @@ class Model {
   public void init() {   
     nbxgrid = xWindow / gridSize;
     nbygrid = (yWindow - yHUD) / gridSize + 1;
-    println("grid: " + nbxgrid + "*" + nbygrid);
+    grid = new int[nbxgrid][nbygrid];
     for (int x = 0; x < nbxgrid; ++x) {
-      grid.add(new ArrayList<Integer>());
       for (int y = 0; y < nbygrid; ++y) { 
         if ( ((x == 0) && (y != 5) && (y != 6)) ||
              ((x == nbxgrid - 1) && (y != 5) && (y!= 6)) ||
              ((y == 0) && (x != 7) && (x!= 8)) ||
              ((y == nbygrid - 1) && (x != 7) && (x!= 8)) )
-           grid.get(x).add(WALL);
+           grid[x][y] = WALL;
          else
-           grid.get(x).add(EMPTY);
+           grid[x][y] = EMPTY;
       }
     }
     reset();
@@ -57,14 +56,14 @@ class Model {
       for (BoundingBox box : gBoxes) {
         box.draw();
       }
-      for (int x = 0; x < grid.size(); ++x) {
-        for (int y = 0; y < grid.get(0).size(); ++y) {
-          if (grid.get(x).get(y) == WALL) {
+      for (int x = 0; x < grid.length; ++x) {
+        for (int y = 0; y < grid[0].length; ++y) {
+          if (grid[x][y] == WALL) {
             noStroke();
             fill(256, 0, 0, 50);
             rect(x*gridSize, yHUD + y*gridSize, gridSize, gridSize);
           }
-          if (grid.get(x).get(y) == TRIGGER1 || grid.get(x).get(y) == TRIGGER2) {
+          if (grid[x][y] == TRIGGER1 || grid[x][y] == TRIGGER2) {
             noStroke();
             fill(0, 255, 0, 50);
             rect(x*gridSize, yHUD + y*gridSize, gridSize, gridSize);
@@ -81,14 +80,17 @@ class Model {
   
   public Player player1 = new Player(1);
   public Player player2 = new Player(2);
-  public ArrayList<ArrayList<Integer>> grid = new ArrayList<ArrayList<Integer>>();
+  public int[][] grid;
 
 }
 
 Rule generateNewRule() {
-  int rand = (int)random(0,4);
-  boolean reverse = (int)random(0,4) == 0 ? true : false;
-  return new Rule(null, rand, reverse);
+  return new Rule((int)random(0,4), (int)random(0,4) == 0);
+}
+
+int oppositeDirection(int direction) {
+  if (direction % 2 == 0) { return direction+1; }
+  else { return direction-1; }
 }
 
 class Rule {
@@ -98,43 +100,39 @@ class Rule {
   public TriggerArea trigger1 = new TriggerArea();
   public TriggerArea trigger2 = new TriggerArea();
   
-  Rule(String images[], int forbidenKey, boolean lie) {
-    this.images = images;
+  Rule(int forbidenKey, boolean lie) {
     this.forbidenKey = forbidenKey;
     this.lie = lie;
-    if (forbidenKey != -1) {
-      String plop[] = {gResources.getArrowName(1, getForbidenKey(1)), gResources.getArrowName(2, getForbidenKey(2))};
-      if ((int)random(3) == 0) {
-        String temp = plop[0];
-        plop[0] = plop[1];
-        plop[1] = temp;
-      }
-      this.images = plop;
-      // reverse keys if lie mode
-      if (this.lie) { this.forbidenKey = getForbidenKey(2); }
-      
-      // create exit
-      trigger1.onTrigger = new CallbackTrigger() {
-        public void activate(int playerId) {
-          roundover("Player "+playerId+" won");
-          if (playerId == 1) 
-           gModel.player1.changeScore(5);
-          if (playerId == 2) 
-           gModel.player2.changeScore(5);
-        }  
-      };
-      gModel.grid.get(7).set(5, gModel.TRIGGER1);
-      gModel.grid.get(7).set(6, gModel.TRIGGER1);
-      gModel.grid.get(8).set(5, gModel.TRIGGER1);
-      gModel.grid.get(8).set(6, gModel.TRIGGER1);
+    String images[] = {gResources.getArrowName(1, forbidenKey), gResources.getArrowName(2, oppositeDirection(forbidenKey))};
+    // Swap images randomly
+    if ((int)random(3) == 0) {
+      String temp = images[0];
+      images[0] = images[1];
+      images[1] = temp;
     }
+    this.images = images;
+    // reverse keys if lie mode
+    if (this.lie) { this.forbidenKey = oppositeDirection(forbidenKey); }
+    
+    // create exit
+    trigger1.onTrigger = new CallbackTrigger() {
+      public void activate(int playerId) {
+        roundover("Player "+playerId+" won");
+        if (playerId == 1) 
+         gModel.player1.changeScore(5);
+        if (playerId == 2) 
+         gModel.player2.changeScore(5);
+      }  
+    };
+    gModel.grid[7][5] = gModel.TRIGGER1;
+    gModel.grid[7][6] = gModel.TRIGGER1;
+    gModel.grid[8][5] = gModel.TRIGGER1;
+    gModel.grid[8][6] = gModel.TRIGGER1;
   }
   
   int getForbidenKey(int id) {
-    if (forbidenKey == -1) { return forbidenKey; }
     if (id == 1) { return forbidenKey; }
-    if (forbidenKey % 2 == 0) { return forbidenKey+1; }
-    else { return forbidenKey-1; }
+    return oppositeDirection(forbidenKey);
   }
   
   void draw() {
@@ -223,15 +221,15 @@ class Player {
   
   public Boolean hasCollision(int type) {
     if (Pause) return false;  
-    int boxy = (box._y - yHUD) / gridSize;
-    int boxx = box._x / gridSize;
-    int boxxx = (box._x + box._width) / gridSize;
-    int boxyy = (box._y - yHUD + box._height) / gridSize;
-    if (boxx >= 0 && boxy >=0 && boxx < gModel.nbxgrid && boxy < gModel.nbygrid && (gModel.grid.get(boxx).get(boxy) == type)) return true;
-    if (boxxx >= 0 && boxy >=0 && boxxx < gModel.nbxgrid && boxy < gModel.nbygrid &&(gModel.grid.get(boxxx).get(boxy) == type)) return true;
-    if (boxxx >= 0 && boxyy >=0 && boxxx < gModel.nbxgrid && boxyy < gModel.nbygrid &&(gModel.grid.get(boxxx).get(boxyy) == type)) return true;
-    if (boxx >= 0 && boxyy >=0 && boxx < gModel.nbxgrid && boxyy < gModel.nbygrid &&(gModel.grid.get(boxx).get(boxyy) == type)) return true;
-  
+    // cast needed for javascript...
+    int boxy = (int)((box._y - yHUD) / gridSize);
+    int boxx = (int)(box._x / gridSize);
+    int boxxx = (int)((box._x + box._width) / gridSize);
+    int boxyy = (int)((box._y - yHUD + box._height) / gridSize);
+    if (boxx >= 0 && boxy >=0 && boxx < gModel.nbxgrid && boxy < gModel.nbygrid && (gModel.grid[boxx][boxy] == type)) return true;
+    if (boxxx >= 0 && boxy >=0 && boxxx < gModel.nbxgrid && boxy < gModel.nbygrid &&(gModel.grid[boxxx][boxy] == type)) return true;
+    if (boxxx >= 0 && boxyy >=0 && boxxx < gModel.nbxgrid && boxyy < gModel.nbygrid &&(gModel.grid[boxxx][boxyy] == type)) return true;
+    if (boxx >= 0 && boxyy >=0 && boxx < gModel.nbxgrid && boxyy < gModel.nbygrid &&(gModel.grid[boxx][boxyy] == type)) return true;
     return false;  
   }
 
